@@ -23,6 +23,13 @@ npm uninstall XXX
 <hr>
 <hr>
 
+
+# Description
+Web front-end project based on React+Typescript can call OpenAI's GPT-3 official interface to get its answer.
+
+<hr>
+
+
 # Add Key
 
 Find `OPENAI_API_KEY` in the file `api-key.ts.example`, add the `api-key` manually generated in your OpenAi account. The approximate format is as follows:
@@ -37,10 +44,6 @@ Next, copy `api-key.ts.example` to the `src` directory and rename it to `api-key
 
 <hr>
 
-# Description
-Web front-end project based on React+Typescript can call OpenAI's GPT-3 official interface to get its answer.
-
-<hr>
 
 # Initialize
 ```
