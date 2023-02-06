@@ -81,7 +81,7 @@ class Tackle extends React.Component {
   verifyQuestText = (doubtInfo: string) => {
     const spaceReg = /^\s+$/;
     doubtInfo = this.state.questionTextValue;
-    let veriftFlag = true;
+    let verifyFlag = true;
 
     if (
       doubtInfo.match(spaceReg) ||
@@ -90,9 +90,9 @@ class Tackle extends React.Component {
       doubtInfo === ""
     ) {
       alert("Invaild String! Entry Retry!");
-      veriftFlag = false;
+      verifyFlag = false;
     }
-    return veriftFlag;
+    return verifyFlag;
   };
 
   sendQuestion = (doubtInfo: string) => {
