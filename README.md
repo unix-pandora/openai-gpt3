@@ -23,6 +23,20 @@ npm uninstall XXX
 <hr>
 <hr>
 
+# Add Key
+
+Find `OPENAI_API_KEY` in the file `api-key.ts.example`, add the `api-key` manually generated in your OpenAi account. The approximate format is as follows:
+
+```
+
+export const OPENAI_ API_ KEY: string = "YOUR.OPENAI_API_KEY";
+
+```
+
+Next, copy `api-key.ts.example` to the `src` directory and rename it to `api-key.ts`
+
+<hr>
+
 # Description
 Web front-end project based on React+Typescript can call OpenAI's GPT-3 official interface to get its answer.
 
@@ -69,6 +83,20 @@ http://localhost:8083/
 
 
 <hr>
+
+# 添加密钥
+
+找到`api-key.ts.example`内的`OPENAI_API_KEY`,加入你的OpenAi账户中自己手动生成的`api-key`,大概格式如下:
+
+```
+export const OPENAI_API_KEY: string = "YOUR.OPENAI_API_KEY";
+```
+
+接下来,把`api-key.ts.example`复制到`src`目录,并且把它重命名为`api-key.ts`.
+
+
+<hr>
+
 
 # 初始化
 
