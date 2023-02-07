@@ -74,8 +74,13 @@ http://localhost:8083/
 ```
 <hr>
 # Notice
-+ You cannot ask the same question twice, or you may return an error.
+
++ Avoid asking the same question twice in a row. Doing so may return errors.
+
 + Try not to ask questions frequently in a short time, or you may return errors.
+
++ This model limits the length of the problem context to 4097 characters. Therefore, if the problem is too long, an error will be returned
+
 
 <hr>
 <hr>
@@ -138,6 +143,8 @@ http://localhost:8083/
 
 # 须知
 
-+ 同一个问题不能提问两次,不然可能返回错误.
++ 避免连续提问两次同一个问题,这样做可能返回错误.
 
 + 尽量不要在短时间内频繁提问,不然也有可能返回错误.
+
++ 此模型对问题上下文长度的限制是4097个字符,因此提出的问题太长的话,会返回错误.
