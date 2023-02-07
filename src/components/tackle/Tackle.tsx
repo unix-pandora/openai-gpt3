@@ -71,7 +71,9 @@ class Tackle extends React.Component {
     console.log(times + " - " + lastTime);
 
     if (times - lastTime <= this.state.timeLimitNumber) {
-      alert("请20秒后再提问!");
+      alert(
+        "切勿频繁提问,请20秒后再提问\nDon't ask questions frequently, please ask questions after 20 seconds"
+      );
       return false;
     }
 
@@ -89,10 +91,27 @@ class Tackle extends React.Component {
       doubtInfo === undefined ||
       doubtInfo === ""
     ) {
-      alert("Invaild String! Entry Retry!");
+      alert(
+        "您没有输入任何内容,请重新输入问题\nYou have not entered anything, please re-enter the question"
+      );
       verifyFlag = false;
     }
     return verifyFlag;
+  };
+
+  verifyContextLimit = (doubtInfo: string) => {
+    var leng = doubtInfo.length;
+    console.dir("length: " + leng);
+
+    //如果为true意为超出限制.假为反之
+    if (leng > 1024) {
+      alert(
+        "超出上下文限制(1024个字符), 请减少字符后再提问\nExceeded the context limit (1024 characters), please reduce the characters before asking questions"
+      );
+      return false;
+    }
+
+    return true;
   };
 
   sendQuestion = (doubtInfo: string) => {
@@ -133,6 +152,12 @@ class Tackle extends React.Component {
       return;
     }
     console.log("pass through - 2");
+
+    let limitFlag = this.verifyContextLimit(this.state.questionTextValue);
+    if (limitFlag === false) {
+      return;
+    }
+    console.log("pass through - 3");
 
     this.sendQuestion(this.state.questionTextValue);
   };
