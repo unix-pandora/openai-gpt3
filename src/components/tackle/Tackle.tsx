@@ -21,22 +21,19 @@ class Tackle extends React.Component {
     isReadOnly: true,
     timeRecordName: "time_record_now",
     timeLimitNumber: 20 * 1000,
+    lastQuestionName: "Last_Question_Context",
+    spaceRegExp: /^\s+$/, // 空格之正则式
   };
 
   //在组件的更新已经同步到DOM中之后立刻被调用,该方法不会在初始化渲染的时候调用,使用该方法可以在组件更新之后操作DOM元素
   componentDidUpdate(prevProps, prevState) {
     console.info("Tackle component did update...");
     console.dir(this);
-    console.dir(prevProps);
-    console.dir(prevState);
+    console.dir(prevProps, prevState);
   }
 
   handleInput = (type, event) => {
-    console.log("type");
-    console.log(type);
-
-    console.log("event");
-    console.log(event);
+    console.dir(type, event);
 
     let value = event.target.value;
     let newState = {};
@@ -81,12 +78,11 @@ class Tackle extends React.Component {
   };
 
   verifyQuestText = (doubtInfo: string) => {
-    const spaceReg = /^\s+$/;
+    // const spaceReg = /^\s+$/; // 空格之正则式
     doubtInfo = this.state.questionTextValue;
-    let verifyFlag = true;
 
     if (
-      doubtInfo.match(spaceReg) ||
+      doubtInfo.match(this.state.spaceRegExp) ||
       doubtInfo === null ||
       doubtInfo === undefined ||
       doubtInfo === ""
@@ -94,9 +90,9 @@ class Tackle extends React.Component {
       alert(
         "您没有输入任何内容,请重新输入问题\nYou have not entered anything, please re-enter the question"
       );
-      verifyFlag = false;
+      return false;
     }
-    return verifyFlag;
+    return true;
   };
 
   verifyContextLimit = (doubtInfo: string) => {
@@ -140,12 +136,44 @@ class Tackle extends React.Component {
       });
   };
 
+  replaceAllSpace = () => {
+    //去除所提交的问题文本内容中的空格
+    var textQuestion = this.state.questionTextValue.replace(/\s+/g, "");
+    console.log("textQuestion:\n" + textQuestion);
+    return textQuestion;
+  };
+
+  //备份上一次提问互动完成的问题,提问时进行检测是否重复,避免浪费资源
+  detectRepeat = (doubtInfo) => {
+    var repeatFlag = true;
+    var lastDoubtInfo = localStorage.getItem(this.state.lastQuestionName);
+    console.log("lastDoubtInfo:  " + lastDoubtInfo);
+
+    if (
+      lastDoubtInfo !== null ||
+      lastDoubtInfo !== undefined ||
+      lastDoubtInfo !== ""
+    ) {
+      if (lastDoubtInfo === doubtInfo) {
+        alert(
+          "连续两次提问的内容一致,为了避免浪费资源,请重新输入另外的问题\nThe content of two consecutive questions is consistent. To avoid wasting resources, please re-enter another question"
+        );
+        repeatFlag = false;
+      }
+    }
+
+    localStorage.setItem(this.state.lastQuestionName, doubtInfo);
+    return repeatFlag;
+  };
+
   uploadQuestion = () => {
-    let verifyFlag = this.verifyQuestText(this.state.questionTextValue);
+    let text = this.replaceAllSpace();
+
+    let verifyFlag = this.verifyQuestText(text);
     if (verifyFlag === false) {
       return;
     }
-    console.log("pass through");
+    console.log("pass through - 1");
 
     let timeFlag = this.judgeLimitTime();
     if (timeFlag === false) {
@@ -153,13 +181,19 @@ class Tackle extends React.Component {
     }
     console.log("pass through - 2");
 
-    let limitFlag = this.verifyContextLimit(this.state.questionTextValue);
+    let limitFlag = this.verifyContextLimit(text);
     if (limitFlag === false) {
       return;
     }
     console.log("pass through - 3");
 
-    this.sendQuestion(this.state.questionTextValue);
+    let repeat_flag = this.detectRepeat(text);
+    if (repeat_flag === false) {
+      return;
+    }
+    console.log("pass through - 4");
+
+    this.sendQuestion(text);
   };
 
   render() {

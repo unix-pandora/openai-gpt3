@@ -2,7 +2,7 @@ import { OPENAI_API_KEY } from "@/api-key";
 
 const requestBody = {
   prompt: "",
-  max_tokens: 4 * 1000,
+  max_tokens: 4000,
   temperature: 0.9, //每次返回答案相似度0~1(0:每次都一致,1:每次都不同)
   top_p: 1,
   frequency_penalty: 0.0,
