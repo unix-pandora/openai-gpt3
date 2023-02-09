@@ -78,8 +78,7 @@ class Tackle extends React.Component {
   };
 
   verifyQuestText = (doubtInfo: string) => {
-    // const spaceReg = /^\s+$/; // 空格之正则式
-    doubtInfo = this.state.questionTextValue;
+    console.info("verifyQuestText-doubtInfo:" + doubtInfo);
 
     if (
       doubtInfo.match(this.state.spaceRegExp) ||
@@ -136,9 +135,14 @@ class Tackle extends React.Component {
       });
   };
 
-  replaceAllSpace = () => {
-    //去除所提交的问题文本内容中的空格
-    var textQuestion = this.state.questionTextValue.replace(/\s+/g, "");
+  replaceStrSpace = () => {
+    // var textQuestion = this.state.questionTextValue.replace(/\s+/g, "");//去除所提交的问题文本内容中的空格
+
+    const textQuestion = this.state.questionTextValue
+      .trim()
+      .replace(/[\r\n]+/g, ",")
+      .replace(/\s*,\s*/g, ",")
+      .replace(/,+$/g, ""); //去除所提交的问题文本内容中的开头和末尾的空格,以及回车行和空白行
     console.log("textQuestion:\n" + textQuestion);
     return textQuestion;
   };
@@ -167,7 +171,7 @@ class Tackle extends React.Component {
   };
 
   uploadQuestion = () => {
-    let text = this.replaceAllSpace();
+    let text = this.replaceStrSpace();
 
     let verifyFlag = this.verifyQuestText(text);
     if (verifyFlag === false) {
